@@ -56,7 +56,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = [ autoPatchelfHook makeWrapper ];
   buildInputs = [ stdenv.cc.cc.lib alsa-lib ];
   runtimeDependencies = [
-    dbus
+    dbus.lib
     libGL
     vulkan-loader
     wayland

@@ -25,6 +25,7 @@
   libxcursor,
   libxi,
   libxkbcommon,
+  libva,
   # from default.nix
   app,
   version,
@@ -55,8 +56,8 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ autoPatchelfHook makeWrapper ];
   buildInputs = [ stdenv.cc.cc.lib alsa-lib ];
-  runtimeDependencies = [
-    dbus.lib
+   runtimeDependencies = map lib.getLib [
+    dbus
     libGL
     vulkan-loader
     wayland
@@ -65,8 +66,9 @@ stdenv.mkDerivation {
     libxcursor
     libxi
     libxkbcommon
+    libva
   ];
-
+  appendRunpaths = [ "/run/opengl-driver/lib" ];
   dontConfigure = true;
   dontBuild = true;
 

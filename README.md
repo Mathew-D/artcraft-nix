@@ -25,7 +25,7 @@ Unofficial: not affiliated with the ArtCraft authors. x86_64-linux only for now.
 ## Try an app
 
 ```sh
-nix run github:ipeglin/artcraft-nix#photocraft
+nix run github:mathew-d/artcraft-nix#photocraft
 ```
 
 Each package ships the GUI and its `<app>-cli` companion.
@@ -34,7 +34,7 @@ Each package ships the GUI and its `<app>-cli` companion.
 
 ```nix
 # flake.nix
-inputs.artcraft.url = "github:ipeglin/artcraft-nix";
+inputs.artcraft.url = "github:mathew-d/artcraft-nix";
 
 # in your nixosSystem modules
 modules = [
@@ -57,7 +57,7 @@ programs.artcraft = {
 
 Alternatives: `inputs.artcraft.packages.x86_64-linux.<app>`, or
 `overlays.default`, which adds `pkgs.artcraft.<app>` built against your
-nixpkgs. `nix profile install github:ipeglin/artcraft-nix` installs all of them.
+nixpkgs. `nix profile install github:mathew-d/artcraft-nix` installs all of them.
 
 ## Versions
 

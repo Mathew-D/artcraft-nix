@@ -11,7 +11,9 @@ GitHub CLI requirements.
 
 import base64
 import json
+import os
 import re
+import subprocess
 import urllib.request
 from pathlib import Path
 
@@ -25,9 +27,29 @@ def vkey(version):
     return tuple(int(part) for part in version.split("."))
 
 
+def github_token():
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    if token:
+        return token
+    try:
+        result = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True, check=False)
+    except FileNotFoundError:
+        return None
+    if result.returncode == 0:
+        return result.stdout.strip()
+    return None
+
+
 def fetch_releases(repo):
+    token = github_token()
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "artcraft-nix-sys-update",
+    }
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
     url = f"https://api.github.com/repos/{repo}/releases"
-    req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json"})
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=60) as response:
         return json.load(response)
 
